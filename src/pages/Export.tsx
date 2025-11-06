@@ -1,3 +1,4 @@
+import * as XLSX from "xlsx";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { useRequireAuth } from "@/hooks/useAuth";
@@ -266,10 +267,6 @@ export default function Export() {
         });
         return;
       }
-
-      const XLSX = await import(
-        /* @vite-ignore */ "https://cdn.sheetjs.com/xlsx-latest/package/xlsx.mjs"
-      );
 
       const banregioSheet = prepareBanregioSheet(transactions);
       const velaSheet = prepareVelaSheet(transactions);

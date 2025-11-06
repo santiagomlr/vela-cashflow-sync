@@ -69,6 +69,19 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </nav>
       <main className="container mx-auto px-4 py-8">{children}</main>
+      <footer className="border-t bg-card py-4 mt-8">
+        <div className="container mx-auto px-4">
+          <a 
+            href="https://veladigital.mx/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center justify-center space-x-2 hover:opacity-80 transition-opacity"
+          >
+            <span className="text-sm text-muted-foreground">Powered By</span>
+            <img src={velaLogo} alt="Vela Digital" className="h-6" />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
