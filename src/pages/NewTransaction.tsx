@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Upload, FileText, FileSpreadsheet } from "lucide-react";
+import { formatCurrencyDisplay, normalizeCurrencyValue } from "@/lib/currency";
 
 type TransactionType = "income" | "expense";
 type Method = "bank" | "cash";
@@ -37,6 +38,7 @@ export default function NewTransaction() {
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [xmlFile, setXmlFile] = useState<File | null>(null);
   const [notes, setNotes] = useState("");
+  const [isAmountFocused, setIsAmountFocused] = useState(false);
 
   // Computed values
   const [subtotal, setSubtotal] = useState(0);
@@ -113,7 +115,15 @@ export default function NewTransaction() {
   const handleSubmit = async (status: "draft" | "posted") => {
     const isDraft = status === "draft";
 
-    if (!concept || !amount || !category) {
+    const numericAmount = parseFloat(amount);
+
+    if (
+      !concept ||
+      !amount ||
+      !category ||
+      Number.isNaN(numericAmount) ||
+      numericAmount <= 0
+    ) {
       toast({
         variant: "destructive",
         title: "Campos requeridos",
@@ -139,7 +149,7 @@ export default function NewTransaction() {
 
     try {
       let receiptUrl = null;
-      let uuidCfdi = null;
+      const uuidCfdi = null;
 
       // Upload receipt file
       if (receiptFile) {
@@ -158,7 +168,7 @@ export default function NewTransaction() {
         date: new Date().toISOString().split("T")[0],
         method,
         bank_account_id: null,
-        amount: parseFloat(amount),
+        amount: numericAmount,
         concept,
         category,
         vat_rate: parseFloat(vatRate),
@@ -240,12 +250,15 @@ export default function NewTransaction() {
               <Label htmlFor="amount">Monto (MXN) *</Label>
               <Input
                 id="amount"
-                type="number"
-                step="0.01"
-                min="0.01"
+                type="text"
+                inputMode="decimal"
                 placeholder="0.00"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                value={
+                  isAmountFocused ? amount : formatCurrencyDisplay(amount)
+                }
+                onChange={(e) => setAmount(normalizeCurrencyValue(e.target.value))}
+                onFocus={() => setIsAmountFocused(true)}
+                onBlur={() => setIsAmountFocused(false)}
                 required
               />
             </div>
