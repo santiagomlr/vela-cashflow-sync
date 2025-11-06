@@ -44,7 +44,6 @@ export default function TransactionEdit() {
   const [method, setMethod] = useState<Method>("bank");
   const [vatRate, setVatRate] = useState("0.16");
   const [vatIncluded, setVatIncluded] = useState(true);
-  const [vatCreditable, setVatCreditable] = useState(true);
   const [category, setCategory] = useState("");
   const [receiptType, setReceiptType] = useState<ReceiptType | "">("");
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
@@ -67,6 +66,9 @@ export default function TransactionEdit() {
     : amount
     ? (parseFloat(amount) * (1 + parseFloat(vatRate))).toFixed(2)
     : "0.00";
+
+  const isExpenseVatCategory =
+    type === "expense" && category === "IVA, ISR y retenciones";
 
   const incomeCategories = [
     "Instalaciones completas",
@@ -119,7 +121,6 @@ export default function TransactionEdit() {
       setMethod(data.method as Method);
       setVatRate(data.vat_rate.toString());
       setVatIncluded(data.vat_included);
-      setVatCreditable(data.vat_creditable);
       setCategory(data.category || "");
       setReceiptType((data.receipt_type || "") as ReceiptType | "");
       setNotes(data.notes || "");
@@ -199,7 +200,6 @@ export default function TransactionEdit() {
           category,
           vat_rate: parseFloat(vatRate),
           vat_included: vatIncluded,
-          vat_creditable: vatCreditable,
           receipt_type: receiptType || null,
           receipt_url: receiptUrl,
           uuid_cfdi: uuidCfdi,
@@ -326,29 +326,18 @@ export default function TransactionEdit() {
             </div>
 
             {/* IVA Incluido */}
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>¿IVA incluido en el monto?</Label>
-                <p className="text-sm text-muted-foreground">
-                  Actívalo si el monto ya es el TOTAL cobrado/pagado (incluye
-                  IVA).
-                </p>
-              </div>
-              <Switch checked={vatIncluded} onCheckedChange={setVatIncluded} />
-            </div>
-
-            {/* IVA Acreditable (solo para egresos) */}
-            {type === "expense" && (
+            {!isExpenseVatCategory && (
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label>¿IVA acreditable?</Label>
+                  <Label>¿IVA incluido en el monto?</Label>
                   <p className="text-sm text-muted-foreground">
-                    Si NO es acreditable, el IVA se suma al gasto.
+                    Actívalo si el monto ya es el TOTAL cobrado/pagado (incluye
+                    IVA).
                   </p>
                 </div>
                 <Switch
-                  checked={vatCreditable}
-                  onCheckedChange={setVatCreditable}
+                  checked={vatIncluded}
+                  onCheckedChange={setVatIncluded}
                 />
               </div>
             )}
