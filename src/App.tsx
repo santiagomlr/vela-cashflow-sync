@@ -12,6 +12,8 @@ import TransactionEdit from "./pages/TransactionEdit";
 import CashFlow from "./pages/CashFlow";
 import Export from "./pages/Export";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
+import ProfileAppearance from "./pages/ProfileAppearance";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,8 @@ const App = () => (
           <Route path="/transactions/:id/edit" element={<TransactionEdit />} />
           <Route path="/cashflow" element={<CashFlow />} />
           <Route path="/export" element={<Export />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/appearance" element={<ProfileAppearance />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

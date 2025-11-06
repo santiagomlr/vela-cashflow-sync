@@ -208,9 +208,9 @@ export default function NewTransaction() {
     }
   };
 
-  if (authLoading) {
+  if (authLoading || loading) {
     return (
-      <Layout>
+      <Layout user={user}>
         <div className="flex items-center justify-center h-64">
           <p className="text-muted-foreground">Cargando...</p>
         </div>
@@ -219,7 +219,7 @@ export default function NewTransaction() {
   }
 
   return (
-    <Layout>
+    <Layout user={user}>
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-3xl font-bold mb-2">Nuevo Movimiento</h1>
