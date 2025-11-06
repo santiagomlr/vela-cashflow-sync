@@ -86,7 +86,7 @@ export default function TransactionDetail() {
 
   if (authLoading || loading) {
     return (
-      <Layout>
+      <Layout user={user}>
         <div className="flex items-center justify-center h-64">
           <p className="text-muted-foreground">Cargando...</p>
         </div>
@@ -95,11 +95,17 @@ export default function TransactionDetail() {
   }
 
   if (!transaction) {
-    return null;
+    return (
+      <Layout user={user}>
+        <div className="flex h-64 items-center justify-center">
+          <p className="text-muted-foreground">Transacción no encontrada</p>
+        </div>
+      </Layout>
+    );
   }
 
   return (
-    <Layout>
+    <Layout user={user}>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
