@@ -19,6 +19,7 @@ export interface ThemeOption {
     background: string;
     surface: string;
     accent: string;
+    accentAlt: string;
   };
 }
 
@@ -32,6 +33,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.98 0.003 260)",
       surface: "oklch(0.97 0.003 260)",
       accent: "oklch(0.8 0.15 150)",
+      accentAlt: "oklch(0.7 0.15 250)",
     },
   },
   {
@@ -43,6 +45,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.95 0.005 250)",
       surface: "oklch(0.99 0.002 250)",
       accent: "oklch(0.75 0.15 145)",
+      accentAlt: "oklch(0.65 0.14 250)",
     },
   },
   {
@@ -54,6 +57,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.97 0.02 240)",
       surface: "oklch(0.99 0.005 250)",
       accent: "oklch(0.68 0.14 240)",
+      accentAlt: "oklch(0.8 0.12 200)",
     },
   },
   {
@@ -65,6 +69,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.98 0.03 90)",
       surface: "oklch(0.99 0.02 95)",
       accent: "oklch(0.75 0.14 150)",
+      accentAlt: "oklch(0.8 0.14 80)",
     },
   },
   {
@@ -76,6 +81,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.13 0.01 260)",
       surface: "oklch(0.16 0.01 260)",
       accent: "oklch(0.75 0.16 150)",
+      accentAlt: "oklch(0.7 0.15 250)",
     },
   },
   {
@@ -87,6 +93,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.07 0.01 250)",
       surface: "oklch(0.1 0.008 260)",
       accent: "oklch(0.7 0.14 160)",
+      accentAlt: "oklch(0.65 0.14 250)",
     },
   },
   {
@@ -98,6 +105,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.96 0.01 250)",
       surface: "oklch(0.99 0.005 260)",
       accent: "oklch(0.75 0.14 150)",
+      accentAlt: "oklch(0.7 0.14 220)",
     },
   },
   {
@@ -109,6 +117,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
       background: "oklch(0.98 0.01 280)",
       surface: "oklch(0.99 0.01 280)",
       accent: "oklch(0.8 0.16 150)",
+      accentAlt: "oklch(0.78 0.16 300)",
     },
   },
 ];

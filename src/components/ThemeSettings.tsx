@@ -81,6 +81,10 @@ export function ThemeSettings() {
                           className="h-2 w-6 rounded-full"
                           style={{ background: option.preview.accent }}
                         />
+                        <span
+                          className="h-2 w-6 rounded-full"
+                          style={{ background: option.preview.accentAlt }}
+                        />
                       </div>
                     </div>
                   </div>
