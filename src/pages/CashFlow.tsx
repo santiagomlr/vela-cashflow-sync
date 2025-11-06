@@ -446,18 +446,18 @@ export default function CashFlow() {
     URL.revokeObjectURL(url);
   }, [dateRange, tableRows]);
 
-  if (authLoading || loading) {
+  if (authLoading) {
     return (
-      <Layout user={user}>
+      <Layout>
         <div className="flex items-center justify-center h-64">
-          <p className="text-muted-foreground">Cargando flujos...</p>
+          <p className="text-muted-foreground">Cargando...</p>
         </div>
       </Layout>
     );
   }
 
   return (
-    <Layout user={user}>
+    <Layout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold mb-2">💰 Flujo de Efectivo – Vela Digital</h1>

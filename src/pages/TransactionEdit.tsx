@@ -228,7 +228,7 @@ export default function TransactionEdit() {
 
   if (authLoading || loading) {
     return (
-      <Layout user={user}>
+      <Layout>
         <div className="flex items-center justify-center h-64">
           <p className="text-muted-foreground">Cargando...</p>
         </div>
@@ -237,7 +237,7 @@ export default function TransactionEdit() {
   }
 
   return (
-    <Layout user={user}>
+    <Layout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">

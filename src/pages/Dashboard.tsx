@@ -77,7 +77,7 @@ export default function Dashboard() {
 
   if (authLoading || loading) {
     return (
-      <Layout user={user}>
+      <Layout>
         <div className="flex items-center justify-center h-64">
           <p className="text-muted-foreground">Cargando...</p>
         </div>
@@ -86,7 +86,7 @@ export default function Dashboard() {
   }
 
   return (
-    <Layout user={user}>
+    <Layout>
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold mb-2">Dashboard</h1>

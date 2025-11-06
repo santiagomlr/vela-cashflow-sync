@@ -332,9 +332,9 @@ export default function Export() {
     }
   };
 
-  if (authLoading || loading) {
+  if (loading) {
     return (
-      <Layout user={user}>
+      <Layout>
         <div className="flex items-center justify-center h-64">
           <p className="text-muted-foreground">Cargando...</p>
         </div>
@@ -343,7 +343,7 @@ export default function Export() {
   }
 
   return (
-    <Layout user={user}>
+    <Layout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold mb-2">Exportar Datos</h1>
