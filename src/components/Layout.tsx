@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { LogOut, Receipt, TrendingUp, FileDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import velaLogo from "@/assets/vela-logo.png";
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,9 +37,8 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center space-x-8">
-              <Link to="/" className="flex items-center space-x-2">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-secondary" />
-                <span className="text-xl font-bold">Vela Ledger</span>
+              <Link to="/" className="flex items-center">
+                <img src={velaLogo} alt="Vela Digital" className="h-10" />
               </Link>
               <div className="hidden md:flex space-x-1">
                 {navItems.map((item) => {

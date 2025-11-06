@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import velaLogo from "@/assets/vela-logo.png";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
@@ -76,11 +77,11 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-elegant">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            Vela Ledger
-          </CardTitle>
-          <CardDescription className="text-center">
+        <CardHeader className="space-y-4">
+          <div className="flex justify-center">
+            <img src={velaLogo} alt="Vela Digital" className="h-16" />
+          </div>
+          <CardDescription className="text-center text-base">
             Sistema de contabilidad para Vela Digital
           </CardDescription>
         </CardHeader>
