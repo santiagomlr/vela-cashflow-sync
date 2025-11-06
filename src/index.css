@@ -2,102 +2,288 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All base colors are expressed as OKLCH tuples.
 */
 
 @layer base {
   :root {
-    /* Vela Brand Colors */
-    --background: 210 40% 98%;
-    --foreground: 215 16% 35%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 215 16% 35%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 16% 35%;
-
-    /* Vela Green as primary */
-    --primary: 142 71% 58%;
-    --primary-foreground: 0 0% 100%;
-
-    /* Vela Sapphire as secondary */
-    --secondary: 217 91% 60%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 20% 55%;
-
-    --accent: 142 71% 58%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 142 71% 58%;
-
+    color-scheme: light;
     --radius: 1rem;
-    
-    /* Custom Vela tokens */
     --shadow-elegant: 0 8px 24px rgba(0, 0, 0, 0.06);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
-  .dark {
-    --background: 215 20% 10%;
-    --foreground: 210 40% 98%;
+  :root,
+  :root[data-theme="vela-classic"] {
+    --background: 0.98 0.003 260;
+    --foreground: 0.14 0.02 250;
+    --card: 0.97 0.003 260;
+    --card-foreground: 0.14 0.02 250;
+    --popover: 0.97 0.003 260;
+    --popover-foreground: 0.14 0.02 250;
+    --primary: 0.8 0.15 150;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.7 0.15 250;
+    --secondary-foreground: 0.99 0 0;
+    --muted: 0.75 0.01 260;
+    --muted-foreground: 0.28 0.01 250;
+    --accent: 0.8 0.15 150;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.9 0.005 260;
+    --input: 0.9 0.005 260;
+    --ring: 0.8 0.15 150;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.97 0.003 260;
+    --sidebar-foreground: 0.14 0.02 250;
+    --sidebar-primary: 0.8 0.15 150;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.75 0.01 260;
+    --sidebar-accent-foreground: 0.14 0.02 250;
+    --sidebar-border: 0.9 0.005 260;
+    --sidebar-ring: 0.8 0.15 150;
+  }
 
-    --card: 215 20% 12%;
-    --card-foreground: 210 40% 98%;
+  :root[data-theme="vela-graphite"] {
+    color-scheme: light;
+    --background: 0.95 0.005 250;
+    --foreground: 0.13 0.02 250;
+    --card: 0.99 0.002 250;
+    --card-foreground: 0.13 0.02 250;
+    --popover: 0.99 0.002 250;
+    --popover-foreground: 0.13 0.02 250;
+    --primary: 0.75 0.15 145;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.65 0.14 250;
+    --secondary-foreground: 0.99 0 0;
+    --muted: 0.6 0.01 250;
+    --muted-foreground: 0.23 0.015 250;
+    --accent: 0.75 0.15 145;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.87 0.006 260;
+    --input: 0.87 0.006 260;
+    --ring: 0.75 0.15 145;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.99 0.002 250;
+    --sidebar-foreground: 0.13 0.02 250;
+    --sidebar-primary: 0.75 0.15 145;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.6 0.01 250;
+    --sidebar-accent-foreground: 0.13 0.02 250;
+    --sidebar-border: 0.87 0.006 260;
+    --sidebar-ring: 0.75 0.15 145;
+  }
 
-    --popover: 215 20% 12%;
-    --popover-foreground: 210 40% 98%;
+  :root[data-theme="vela-ocean"] {
+    color-scheme: light;
+    --background: 0.97 0.02 240;
+    --foreground: 0.12 0.02 250;
+    --card: 0.99 0.005 250;
+    --card-foreground: 0.12 0.02 250;
+    --popover: 0.99 0.005 250;
+    --popover-foreground: 0.12 0.02 250;
+    --primary: 0.68 0.14 240;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.8 0.12 200;
+    --secondary-foreground: 0.12 0.02 240;
+    --muted: 0.67 0.02 250;
+    --muted-foreground: 0.24 0.015 250;
+    --accent: 0.68 0.14 240;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.88 0.015 245;
+    --input: 0.88 0.015 245;
+    --ring: 0.68 0.14 240;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.99 0.005 250;
+    --sidebar-foreground: 0.12 0.02 250;
+    --sidebar-primary: 0.68 0.14 240;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.67 0.02 250;
+    --sidebar-accent-foreground: 0.12 0.02 250;
+    --sidebar-border: 0.88 0.015 245;
+    --sidebar-ring: 0.68 0.14 240;
+  }
 
-    --primary: 142 71% 58%;
-    --primary-foreground: 0 0% 100%;
+  :root[data-theme="vela-sand"] {
+    color-scheme: light;
+    --background: 0.98 0.03 90;
+    --foreground: 0.16 0.02 60;
+    --card: 0.99 0.02 95;
+    --card-foreground: 0.16 0.02 60;
+    --popover: 0.99 0.02 95;
+    --popover-foreground: 0.16 0.02 60;
+    --primary: 0.75 0.14 150;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.8 0.14 80;
+    --secondary-foreground: 0.16 0.02 60;
+    --muted: 0.7 0.03 85;
+    --muted-foreground: 0.25 0.02 70;
+    --accent: 0.75 0.14 150;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.9 0.02 90;
+    --input: 0.9 0.02 90;
+    --ring: 0.75 0.14 150;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.99 0.02 95;
+    --sidebar-foreground: 0.16 0.02 60;
+    --sidebar-primary: 0.75 0.14 150;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.7 0.03 85;
+    --sidebar-accent-foreground: 0.16 0.02 60;
+    --sidebar-border: 0.9 0.02 90;
+    --sidebar-ring: 0.75 0.14 150;
+  }
 
-    --secondary: 217 91% 60%;
-    --secondary-foreground: 0 0% 100%;
+  :root[data-theme="vela-noir"] {
+    color-scheme: dark;
+    --background: 0.13 0.01 260;
+    --foreground: 0.9 0.01 260;
+    --card: 0.16 0.01 260;
+    --card-foreground: 0.9 0.01 260;
+    --popover: 0.16 0.01 260;
+    --popover-foreground: 0.9 0.01 260;
+    --primary: 0.75 0.16 150;
+    --primary-foreground: 0.13 0.01 260;
+    --secondary: 0.7 0.15 250;
+    --secondary-foreground: 0.13 0.01 260;
+    --muted: 0.7 0.02 260;
+    --muted-foreground: 0.9 0.01 260;
+    --accent: 0.75 0.16 150;
+    --accent-foreground: 0.13 0.01 260;
+    --destructive: 0.6 0.18 25;
+    --destructive-foreground: 0.98 0 0;
+    --border: 0.3 0.01 260;
+    --input: 0.3 0.01 260;
+    --ring: 0.75 0.16 150;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.6 0.18 25;
+    --sidebar-background: 0.16 0.01 260;
+    --sidebar-foreground: 0.9 0.01 260;
+    --sidebar-primary: 0.75 0.16 150;
+    --sidebar-primary-foreground: 0.13 0.01 260;
+    --sidebar-accent: 0.25 0.01 260;
+    --sidebar-accent-foreground: 0.9 0.01 260;
+    --sidebar-border: 0.3 0.01 260;
+    --sidebar-ring: 0.75 0.16 150;
+  }
 
-    --muted: 215 20% 20%;
-    --muted-foreground: 215 20% 65%;
+  :root[data-theme="vela-midnight"] {
+    color-scheme: dark;
+    --background: 0.07 0.01 250;
+    --foreground: 0.9 0.01 260;
+    --card: 0.1 0.008 260;
+    --card-foreground: 0.9 0.01 260;
+    --popover: 0.1 0.008 260;
+    --popover-foreground: 0.9 0.01 260;
+    --primary: 0.7 0.14 160;
+    --primary-foreground: 0.07 0.01 250;
+    --secondary: 0.65 0.14 250;
+    --secondary-foreground: 0.07 0.01 250;
+    --muted: 0.6 0.015 260;
+    --muted-foreground: 0.88 0.008 260;
+    --accent: 0.7 0.14 160;
+    --accent-foreground: 0.07 0.01 250;
+    --destructive: 0.6 0.18 25;
+    --destructive-foreground: 0.98 0 0;
+    --border: 0.26 0.008 260;
+    --input: 0.26 0.008 260;
+    --ring: 0.7 0.14 160;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.6 0.18 25;
+    --sidebar-background: 0.1 0.008 260;
+    --sidebar-foreground: 0.9 0.01 260;
+    --sidebar-primary: 0.7 0.14 160;
+    --sidebar-primary-foreground: 0.07 0.01 250;
+    --sidebar-accent: 0.2 0.01 260;
+    --sidebar-accent-foreground: 0.9 0.01 260;
+    --sidebar-border: 0.26 0.008 260;
+    --sidebar-ring: 0.7 0.14 160;
+  }
 
-    --accent: 142 71% 58%;
-    --accent-foreground: 0 0% 100%;
+  :root[data-theme="vela-slate"] {
+    color-scheme: light;
+    --background: 0.96 0.01 250;
+    --foreground: 0.15 0.02 250;
+    --card: 0.99 0.005 260;
+    --card-foreground: 0.15 0.02 250;
+    --popover: 0.99 0.005 260;
+    --popover-foreground: 0.15 0.02 250;
+    --primary: 0.75 0.14 150;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.7 0.14 220;
+    --secondary-foreground: 0.15 0.02 250;
+    --muted: 0.68 0.01 260;
+    --muted-foreground: 0.26 0.01 250;
+    --accent: 0.75 0.14 150;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.88 0.005 255;
+    --input: 0.88 0.005 255;
+    --ring: 0.75 0.14 150;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.99 0.005 260;
+    --sidebar-foreground: 0.15 0.02 250;
+    --sidebar-primary: 0.75 0.14 150;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.68 0.01 260;
+    --sidebar-accent-foreground: 0.15 0.02 250;
+    --sidebar-border: 0.88 0.005 255;
+    --sidebar-ring: 0.75 0.14 150;
+  }
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 215 20% 20%;
-    --input: 215 20% 20%;
-    --ring: 142 71% 58%;
-    --sidebar-background: 215 20% 10%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 142 71% 58%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 20% 15%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 215 20% 20%;
-    --sidebar-ring: 142 71% 58%;
+  :root[data-theme="vela-blossom"] {
+    color-scheme: light;
+    --background: 0.98 0.01 280;
+    --foreground: 0.14 0.02 250;
+    --card: 0.99 0.01 280;
+    --card-foreground: 0.14 0.02 250;
+    --popover: 0.99 0.01 280;
+    --popover-foreground: 0.14 0.02 250;
+    --primary: 0.8 0.16 150;
+    --primary-foreground: 0.99 0 0;
+    --secondary: 0.78 0.16 300;
+    --secondary-foreground: 0.14 0.02 250;
+    --muted: 0.7 0.015 280;
+    --muted-foreground: 0.26 0.015 260;
+    --accent: 0.8 0.16 150;
+    --accent-foreground: 0.99 0 0;
+    --destructive: 0.65 0.18 25;
+    --destructive-foreground: 0.99 0 0;
+    --border: 0.88 0.01 285;
+    --input: 0.88 0.01 285;
+    --ring: 0.8 0.16 150;
+    --success: 0.7 0.16 140;
+    --warning: 0.8 0.16 80;
+    --danger: 0.65 0.18 25;
+    --sidebar-background: 0.99 0.01 280;
+    --sidebar-foreground: 0.14 0.02 250;
+    --sidebar-primary: 0.8 0.16 150;
+    --sidebar-primary-foreground: 0.99 0 0;
+    --sidebar-accent: 0.7 0.015 280;
+    --sidebar-accent-foreground: 0.14 0.02 250;
+    --sidebar-border: 0.88 0.01 285;
+    --sidebar-ring: 0.8 0.16 150;
   }
 }
 
