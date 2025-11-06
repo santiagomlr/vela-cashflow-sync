@@ -31,7 +31,6 @@ export default function NewTransaction() {
   const [method, setMethod] = useState<Method>("bank");
   const [vatRate, setVatRate] = useState("0.16");
   const [vatIncluded, setVatIncluded] = useState(true);
-  const [vatCreditable, setVatCreditable] = useState(true);
   const [category, setCategory] = useState("");
   const [receiptType, setReceiptType] = useState<ReceiptType | "">("");
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
@@ -69,6 +68,9 @@ export default function NewTransaction() {
     "IVA, ISR y retenciones",
     "Cuotas y trámites legales",
   ];
+
+  const isExpenseVatCategory =
+    type === "expense" && category === "IVA, ISR y retenciones";
 
   useEffect(() => {
     calculateVAT();
@@ -163,7 +165,7 @@ export default function NewTransaction() {
         category,
         vat_rate: parseFloat(vatRate),
         vat_included: vatIncluded,
-        vat_creditable: type === "expense" ? vatCreditable : true,
+        vat_creditable: true,
         subtotal,
         vat_amount: vatAmount,
         total,
@@ -294,29 +296,15 @@ export default function NewTransaction() {
             </div>
 
             {/* IVA incluido */}
-            <div className="flex items-center justify-between space-x-2">
-              <div className="space-y-0.5">
-                <Label>¿IVA incluido en el monto?</Label>
-                <p className="text-sm text-muted-foreground">
-                  Actívalo si el monto ya es el TOTAL cobrado/pagado (incluye IVA).
-                </p>
-              </div>
-              <Switch checked={vatIncluded} onCheckedChange={setVatIncluded} />
-            </div>
-
-            {/* IVA acreditable (solo para egresos) */}
-            {type === "expense" && (
+            {!isExpenseVatCategory && (
               <div className="flex items-center justify-between space-x-2">
                 <div className="space-y-0.5">
-                  <Label>¿IVA acreditable?</Label>
+                  <Label>¿IVA incluido en el monto?</Label>
                   <p className="text-sm text-muted-foreground">
-                    Si NO es acreditable, el IVA se suma al gasto.
+                    Actívalo si el monto ya es el TOTAL cobrado/pagado (incluye IVA).
                   </p>
                 </div>
-                <Switch
-                  checked={vatCreditable}
-                  onCheckedChange={setVatCreditable}
-                />
+                <Switch checked={vatIncluded} onCheckedChange={setVatIncluded} />
               </div>
             )}
 
