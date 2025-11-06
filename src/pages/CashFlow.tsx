@@ -490,17 +490,17 @@ export default function CashFlow() {
               </div>
             ) : (
               <ChartContainer
-                className="min-h-[320px]"
+                className="aspect-auto h-[220px] w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
                 config={{
-                  income: { label: "Ingresos", color: "hsl(var(--chart-1))" },
-                  expense: { label: "Egresos", color: "hsl(var(--chart-2))" },
-                  net: { label: "Flujo neto", color: "hsl(var(--chart-3))" },
+                  income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
+                  expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
+                  net: { label: "Flujo neto", color: "hsl(var(--primary))" },
                 }}
               >
                 <LineChart data={cashflowSeries}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="period" tickLine={false} axisLine={false} />
-                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={120} />
+                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
@@ -508,9 +508,9 @@ export default function CashFlow() {
                       />
                     }
                   />
-                  <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="expense" stroke="var(--color-expense)" strokeWidth={2} dot={false} />
-                  <Line type="monotone" dataKey="net" stroke="var(--color-net)" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2.4} dot={false} />
+                  <Line type="monotone" dataKey="expense" stroke="var(--color-expense)" strokeWidth={2.4} dot={false} />
+                  <Line type="monotone" dataKey="net" stroke="var(--color-net)" strokeWidth={2} strokeDasharray="6 4" dot={false} />
                 </LineChart>
               </ChartContainer>
             )}
@@ -528,16 +528,16 @@ export default function CashFlow() {
               </div>
             ) : (
               <ChartContainer
-                className="min-h-[320px]"
+                className="aspect-auto h-[220px] w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
                 config={{
-                  income: { label: "Ingresos", color: "hsl(var(--chart-1))" },
-                  expense: { label: "Egresos", color: "hsl(var(--chart-2))" },
+                  income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
+                  expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
                 }}
               >
                 <BarChart data={cashflowSeries}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="period" tickLine={false} axisLine={false} />
-                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={120} />
+                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
                   <ChartTooltip
                     content={
                       <ChartTooltipContent
@@ -545,9 +545,13 @@ export default function CashFlow() {
                       />
                     }
                   />
-                  <Legend />
-                  <Bar dataKey="income" stackId="cashflow" fill="var(--color-income)" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="expense" stackId="cashflow" fill="var(--color-expense)" radius={[4, 4, 0, 0]} />
+                  <Legend
+                    wrapperStyle={{
+                      paddingTop: 12,
+                    }}
+                  />
+                  <Bar dataKey="income" stackId="cashflow" fill="var(--color-income)" radius={[8, 8, 4, 4]} />
+                  <Bar dataKey="expense" stackId="cashflow" fill="var(--color-expense)" radius={[8, 8, 4, 4]} />
                 </BarChart>
               </ChartContainer>
             )}
