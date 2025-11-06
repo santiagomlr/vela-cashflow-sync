@@ -19,6 +19,11 @@ import {
 } from "@/components/ui/select";
 import { ArrowLeft, Save, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  formatAmountFromNumber,
+  formatCurrencyDisplay,
+  normalizeCurrencyValue,
+} from "@/lib/currency";
 
 type TransactionType = "income" | "expense";
 type Method = "bank" | "cash";
@@ -46,6 +51,7 @@ export default function TransactionEdit() {
   const [xmlFile, setXmlFile] = useState<File | null>(null);
   const [notes, setNotes] = useState("");
   const [currentReceiptUrl, setCurrentReceiptUrl] = useState("");
+  const [isAmountFocused, setIsAmountFocused] = useState(false);
 
   // Computed values
   const subtotal =
@@ -108,7 +114,7 @@ export default function TransactionEdit() {
 
       // Populate form with transaction data
       setType(data.type as TransactionType);
-      setAmount(data.amount.toString());
+      setAmount(formatAmountFromNumber(data.amount));
       setConcept(data.concept);
       setMethod(data.method as Method);
       setVatRate(data.vat_rate.toString());
@@ -150,7 +156,15 @@ export default function TransactionEdit() {
   };
 
   const handleSubmit = async (status: "draft" | "posted") => {
-    if (!amount || !concept || !category) {
+    const numericAmount = parseFloat(amount);
+
+    if (
+      !amount ||
+      !concept ||
+      !category ||
+      Number.isNaN(numericAmount) ||
+      numericAmount <= 0
+    ) {
       toast({
         variant: "destructive",
         title: "Campos requeridos",
@@ -162,7 +176,7 @@ export default function TransactionEdit() {
     setSaving(true);
     try {
       let receiptUrl = currentReceiptUrl;
-      let uuidCfdi = null;
+      const uuidCfdi = null;
 
       // Upload new receipt file if provided
       if (receiptFile) {
@@ -180,7 +194,7 @@ export default function TransactionEdit() {
         .update({
           type,
           method,
-          amount: parseFloat(amount),
+          amount: numericAmount,
           concept,
           category,
           vat_rate: parseFloat(vatRate),
@@ -262,11 +276,14 @@ export default function TransactionEdit() {
               <Label htmlFor="amount">Monto (MXN) *</Label>
               <Input
                 id="amount"
-                type="number"
-                step="0.01"
-                min="0.01"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                type="text"
+                inputMode="decimal"
+                value={
+                  isAmountFocused ? amount : formatCurrencyDisplay(amount)
+                }
+                onChange={(e) => setAmount(normalizeCurrencyValue(e.target.value))}
+                onFocus={() => setIsAmountFocused(true)}
+                onBlur={() => setIsAmountFocused(false)}
                 placeholder="0.00"
               />
             </div>
