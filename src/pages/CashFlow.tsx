@@ -534,84 +534,86 @@ export default function CashFlow() {
           ))}
         </div>
 
-        <Card className="shadow-elegant">
-          <CardHeader>
-            <CardTitle>Flujo neto en el tiempo</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loadingData ? (
-              <div className="flex h-64 items-center justify-center">
-                <Skeleton className="h-10 w-full" />
-              </div>
-            ) : (
-              <ChartContainer
-                className="aspect-auto h-[220px] w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
-                config={{
-                  income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
-                  expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
-                  net: { label: "Flujo neto", color: "hsl(var(--primary))" },
-                }}
-              >
-                <LineChart data={cashflowSeries}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" tickLine={false} axisLine={false} />
-                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value) => currencyFormatter.format(Number(value))}
-                      />
-                    }
-                  />
-                  <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2.4} dot={false} />
-                  <Line type="monotone" dataKey="expense" stroke="var(--color-expense)" strokeWidth={2.4} dot={false} />
-                  <Line type="monotone" dataKey="net" stroke="var(--color-net)" strokeWidth={2} strokeDasharray="6 4" dot={false} />
-                </LineChart>
-              </ChartContainer>
-            )}
-          </CardContent>
-        </Card>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card className="shadow-elegant h-full">
+            <CardHeader>
+              <CardTitle>Flujo neto en el tiempo</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingData ? (
+                <div className="flex aspect-square items-center justify-center">
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : (
+                <ChartContainer
+                  className="aspect-square w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
+                  config={{
+                    income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
+                    expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
+                    net: { label: "Flujo neto", color: "hsl(var(--primary))" },
+                  }}
+                >
+                  <LineChart data={cashflowSeries}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="period" tickLine={false} axisLine={false} />
+                    <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
+                    <ChartTooltip
+                      content={
+                        <ChartTooltipContent
+                          formatter={(value) => currencyFormatter.format(Number(value))}
+                        />
+                      }
+                    />
+                    <Line type="monotone" dataKey="income" stroke="var(--color-income)" strokeWidth={2.4} dot={false} />
+                    <Line type="monotone" dataKey="expense" stroke="var(--color-expense)" strokeWidth={2.4} dot={false} />
+                    <Line type="monotone" dataKey="net" stroke="var(--color-net)" strokeWidth={2} strokeDasharray="6 4" dot={false} />
+                  </LineChart>
+                </ChartContainer>
+              )}
+            </CardContent>
+          </Card>
 
-        <Card className="shadow-elegant">
-          <CardHeader>
-            <CardTitle>Ingresos vs Egresos</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loadingData ? (
-              <div className="flex h-64 items-center justify-center">
-                <Skeleton className="h-10 w-full" />
-              </div>
-            ) : (
-              <ChartContainer
-                className="aspect-auto h-[220px] w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
-                config={{
-                  income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
-                  expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
-                }}
-              >
-                <BarChart data={cashflowSeries}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period" tickLine={false} axisLine={false} />
-                  <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value) => currencyFormatter.format(Number(value))}
-                      />
-                    }
-                  />
-                  <Legend
-                    wrapperStyle={{
-                      paddingTop: 12,
-                    }}
-                  />
-                  <Bar dataKey="income" stackId="cashflow" fill="var(--color-income)" radius={[8, 8, 4, 4]} />
-                  <Bar dataKey="expense" stackId="cashflow" fill="var(--color-expense)" radius={[8, 8, 4, 4]} />
-                </BarChart>
-              </ChartContainer>
-            )}
-          </CardContent>
-        </Card>
+          <Card className="shadow-elegant h-full">
+            <CardHeader>
+              <CardTitle>Ingresos vs Egresos</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingData ? (
+                <div className="flex aspect-square items-center justify-center">
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : (
+                <ChartContainer
+                  className="aspect-square w-full rounded-xl border border-border/40 bg-gradient-to-br from-background via-background/80 to-muted/40 p-4"
+                  config={{
+                    income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
+                    expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
+                  }}
+                >
+                  <BarChart data={cashflowSeries}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="period" tickLine={false} axisLine={false} />
+                    <YAxis tickFormatter={(value) => currencyFormatter.format(value)} width={100} />
+                    <ChartTooltip
+                      content={
+                        <ChartTooltipContent
+                          formatter={(value) => currencyFormatter.format(Number(value))}
+                        />
+                      }
+                    />
+                    <Legend
+                      wrapperStyle={{
+                        paddingTop: 12,
+                      }}
+                    />
+                    <Bar dataKey="income" stackId="cashflow" fill="var(--color-income)" radius={[8, 8, 4, 4]} />
+                    <Bar dataKey="expense" stackId="cashflow" fill="var(--color-expense)" radius={[8, 8, 4, 4]} />
+                  </BarChart>
+                </ChartContainer>
+              )}
+            </CardContent>
+          </Card>
+        </div>
 
         <Card className="shadow-elegant">
           <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
