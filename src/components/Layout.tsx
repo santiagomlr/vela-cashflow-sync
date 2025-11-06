@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut, Receipt, TrendingUp, FileDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import velaLogo from "@/assets/vela-logo.png";
+import { ThemeSettings } from "@/components/ThemeSettings";
 
 interface LayoutProps {
   children: ReactNode;
@@ -33,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <nav className="border-b bg-card shadow-sm">
+      <nav className="border-b bg-white shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center space-x-8">
@@ -50,8 +51,8 @@ export default function Layout({ children }: LayoutProps) {
                       to={item.path}
                       className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-smooth ${
                         isActive
-                          ? "bg-primary text-primary-foreground"
-                          : "hover:bg-muted"
+                          ? "bg-emerald-500 text-white shadow-sm"
+                          : "text-slate-600 hover:bg-slate-100"
                       }`}
                     >
                       <Icon className="h-4 w-4" />
@@ -61,10 +62,13 @@ export default function Layout({ children }: LayoutProps) {
                 })}
               </div>
             </div>
-            <Button variant="ghost" size="sm" onClick={handleSignOut}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Salir
-            </Button>
+            <div className="flex items-center gap-2">
+              <ThemeSettings />
+              <Button variant="outline" size="sm" onClick={handleSignOut} className="rounded-full border-slate-200">
+                <LogOut className="h-4 w-4 mr-2" />
+                Salir
+              </Button>
+            </div>
           </div>
         </div>
       </nav>
