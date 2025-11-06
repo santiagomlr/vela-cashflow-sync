@@ -111,6 +111,8 @@ export default function NewTransaction() {
   };
 
   const handleSubmit = async (status: "draft" | "posted") => {
+    const isDraft = status === "draft";
+
     if (!concept || !amount || !category) {
       toast({
         variant: "destructive",
@@ -120,11 +122,15 @@ export default function NewTransaction() {
       return;
     }
 
-    if (method === "bank" && !receiptFile) {
+    const requiresReceipt =
+      !isDraft && method === "bank" && type === "expense";
+
+    if (requiresReceipt && (!receiptType || !receiptFile)) {
       toast({
         variant: "destructive",
         title: "Comprobante requerido",
-        description: "Los movimientos bancarios requieren comprobante.",
+        description:
+          "Los egresos bancarios publicados requieren un comprobante adjunto.",
       });
       return;
     }
