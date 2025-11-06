@@ -23,14 +23,12 @@ export default function NewTransaction() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [bankAccounts, setBankAccounts] = useState<any[]>([]);
 
   // Form fields
   const [type, setType] = useState<TransactionType>("income");
   const [amount, setAmount] = useState("");
   const [concept, setConcept] = useState("");
   const [method, setMethod] = useState<Method>("bank");
-  const [bankAccountId, setBankAccountId] = useState("");
   const [vatRate, setVatRate] = useState("0.16");
   const [vatIncluded, setVatIncluded] = useState(true);
   const [vatCreditable, setVatCreditable] = useState(true);
@@ -38,7 +36,6 @@ export default function NewTransaction() {
   const [receiptType, setReceiptType] = useState<ReceiptType | "">("");
   const [receiptFile, setReceiptFile] = useState<File | null>(null);
   const [xmlFile, setXmlFile] = useState<File | null>(null);
-  const [signatureFile, setSignatureFile] = useState<File | null>(null);
   const [notes, setNotes] = useState("");
 
   // Computed values
@@ -74,28 +71,8 @@ export default function NewTransaction() {
   ];
 
   useEffect(() => {
-    if (user) {
-      loadBankAccounts();
-    }
-  }, [user]);
-
-  useEffect(() => {
     calculateVAT();
   }, [amount, vatRate, vatIncluded]);
-
-  const loadBankAccounts = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("bank_accounts")
-        .select("*")
-        .order("name");
-
-      if (error) throw error;
-      setBankAccounts(data || []);
-    } catch (error) {
-      console.error("Error loading bank accounts:", error);
-    }
-  };
 
   const calculateVAT = () => {
     const amountNum = parseFloat(amount) || 0;
@@ -143,15 +120,6 @@ export default function NewTransaction() {
       return;
     }
 
-    if (method === "bank" && !bankAccountId) {
-      toast({
-        variant: "destructive",
-        title: "Cuenta bancaria requerida",
-        description: "Selecciona una cuenta bancaria.",
-      });
-      return;
-    }
-
     if (method === "bank" && !receiptFile) {
       toast({
         variant: "destructive",
@@ -166,7 +134,6 @@ export default function NewTransaction() {
     try {
       let receiptUrl = null;
       let uuidCfdi = null;
-      let signatureUrl = null;
 
       // Upload receipt file
       if (receiptFile) {
@@ -180,16 +147,11 @@ export default function NewTransaction() {
         // For now, we'll just store the URL
       }
 
-      // Upload signature
-      if (signatureFile) {
-        signatureUrl = await uploadFile(signatureFile, "signatures");
-      }
-
       const { error } = await supabase.from("transactions").insert({
         type,
         date: new Date().toISOString().split("T")[0],
         method,
-        bank_account_id: method === "bank" ? bankAccountId : null,
+        bank_account_id: null,
         amount: parseFloat(amount),
         concept,
         category,
@@ -202,7 +164,7 @@ export default function NewTransaction() {
         receipt_type: receiptType || null,
         receipt_url: receiptUrl,
         uuid_cfdi: uuidCfdi,
-        signature_url: signatureUrl,
+        signature_url: null,
         notes: notes || null,
         status,
         created_by: user?.id,
@@ -309,25 +271,6 @@ export default function NewTransaction() {
                 </TabsList>
               </Tabs>
             </div>
-
-            {/* Cuenta Bancaria (solo si método = Banco) */}
-            {method === "bank" && (
-              <div className="space-y-2">
-                <Label htmlFor="bank_account">Cuenta bancaria *</Label>
-                <Select value={bankAccountId} onValueChange={setBankAccountId}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona una cuenta" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {bankAccounts.map((account) => (
-                      <SelectItem key={account.id} value={account.id}>
-                        {account.name} - {account.institution}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
 
             {/* IVA % */}
             <div className="space-y-2">
@@ -441,22 +384,6 @@ export default function NewTransaction() {
                 </div>
               </div>
             )}
-
-            {/* Firma */}
-            <div className="space-y-2">
-              <Label htmlFor="signature">Firma</Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  id="signature"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) =>
-                    setSignatureFile(e.target.files?.[0] || null)
-                  }
-                />
-                {signatureFile && <Upload className="h-5 w-5 text-primary" />}
-              </div>
-            </div>
 
             {/* Notas */}
             <div className="space-y-2">
