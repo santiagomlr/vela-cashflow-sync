@@ -61,30 +61,29 @@ export default function Transactions() {
   };
 
   const handleDelete = async (id: string, status: string) => {
-    if (!confirm("¿Estás seguro de eliminar esta transacción?")) return;
+    if (status !== "draft") {
+      toast({
+        variant: "destructive",
+        title: "No permitido",
+        description: "Solo los borradores pueden ser eliminados.",
+      });
+      return;
+    }
+
+    if (!confirm("¿Estás seguro de eliminar este borrador?")) return;
 
     try {
-      if (status === "draft") {
-        // Hard delete for drafts - use update to set deleted_at since RLS blocks DELETE on drafts
-        const { error } = await supabase
-          .from("transactions")
-          .update({ deleted_at: new Date().toISOString() })
-          .eq("id", id);
+      // Hard delete for drafts
+      const { error } = await supabase
+        .from("transactions")
+        .delete()
+        .eq("id", id);
 
-        if (error) throw error;
-      } else {
-        // Soft delete for posted/pending
-        const { error } = await supabase
-          .from("transactions")
-          .update({ deleted_at: new Date().toISOString() })
-          .eq("id", id);
-
-        if (error) throw error;
-      }
+      if (error) throw error;
 
       toast({
         title: "Eliminado",
-        description: "La transacción ha sido eliminada.",
+        description: "El borrador ha sido eliminado.",
       });
       loadTransactions();
     } catch (error: any) {
@@ -211,7 +210,7 @@ export default function Transactions() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(transaction.id, transaction.status)}
-                          disabled={transaction.reconciled}
+                          disabled={transaction.reconciled || transaction.status !== "draft"}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

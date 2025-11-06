@@ -50,30 +50,29 @@ export default function TransactionDetail() {
   const handleDelete = async () => {
     if (!transaction) return;
 
-    if (!confirm("¿Estás seguro de eliminar esta transacción?")) return;
+    if (transaction.status !== "draft") {
+      toast({
+        variant: "destructive",
+        title: "No permitido",
+        description: "Solo los borradores pueden ser eliminados.",
+      });
+      return;
+    }
+
+    if (!confirm("¿Estás seguro de eliminar este borrador?")) return;
 
     try {
-      if (transaction.status === "draft") {
-        // Hard delete for drafts
-        const { error } = await supabase
-          .from("transactions")
-          .delete()
-          .eq("id", transaction.id);
+      // Hard delete for drafts
+      const { error } = await supabase
+        .from("transactions")
+        .delete()
+        .eq("id", transaction.id);
 
-        if (error) throw error;
-      } else {
-        // Soft delete for posted/pending
-        const { error } = await supabase
-          .from("transactions")
-          .update({ deleted_at: new Date().toISOString() })
-          .eq("id", transaction.id);
-
-        if (error) throw error;
-      }
+      if (error) throw error;
 
       toast({
         title: "Eliminado",
-        description: "La transacción ha sido eliminada.",
+        description: "El borrador ha sido eliminado.",
       });
       navigate("/transactions");
     } catch (error: any) {
@@ -125,7 +124,7 @@ export default function TransactionDetail() {
             <Button
               variant="destructive"
               onClick={handleDelete}
-              disabled={transaction.reconciled}
+              disabled={transaction.reconciled || transaction.status !== "draft"}
             >
               <Trash2 className="h-4 w-4 mr-2" />
               Eliminar
