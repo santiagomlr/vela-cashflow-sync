@@ -33,7 +33,7 @@ export default function Layout({ children }: LayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <nav className="border-b bg-white shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
@@ -72,11 +72,11 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </nav>
-      <main className="container mx-auto px-4 py-8">{children}</main>
-      <footer className="border-t bg-card py-4 mt-8">
+      <main className="container mx-auto px-4 py-8 flex-1 w-full">{children}</main>
+      <footer className="border-t bg-card py-4 mt-auto w-full">
         <div className="container mx-auto px-4">
-          <a 
-            href="https://veladigital.mx/" 
+          <a
+            href="https://veladigital.mx/"
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center justify-center space-x-2 hover:opacity-80 transition-opacity"
