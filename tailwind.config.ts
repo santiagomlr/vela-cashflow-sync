@@ -1,19 +1,6 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
-const withOklchOpacity = (variable: string) => {
-  return ({ opacityValue, opacityVariable }: { opacityValue?: string; opacityVariable?: string }) => {
-    if (opacityValue !== undefined) {
-      const percentage = Number(opacityValue) * 100;
-      return `color-mix(in oklab, var(${variable}) ${percentage}%, transparent)`;
-    }
-    if (opacityVariable !== undefined) {
-      return `color-mix(in oklab, var(${variable}) calc(var(${opacityVariable}) * 100%), transparent)`;
-    }
-    return `var(${variable})`;
-  };
-};
-
 export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -28,48 +15,48 @@ export default {
     },
     extend: {
       colors: {
-        border: withOklchOpacity("--border"),
-        input: withOklchOpacity("--input"),
-        ring: withOklchOpacity("--ring"),
-        background: withOklchOpacity("--background"),
-        foreground: withOklchOpacity("--foreground"),
+        border: "oklch(var(--border))",
+        input: "oklch(var(--input))",
+        ring: "oklch(var(--ring))",
+        background: "oklch(var(--background))",
+        foreground: "oklch(var(--foreground))",
         primary: {
-          DEFAULT: withOklchOpacity("--primary"),
-          foreground: withOklchOpacity("--primary-foreground"),
+          DEFAULT: "oklch(var(--primary))",
+          foreground: "oklch(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: withOklchOpacity("--secondary"),
-          foreground: withOklchOpacity("--secondary-foreground"),
+          DEFAULT: "oklch(var(--secondary))",
+          foreground: "oklch(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: withOklchOpacity("--destructive"),
-          foreground: withOklchOpacity("--destructive-foreground"),
+          DEFAULT: "oklch(var(--destructive))",
+          foreground: "oklch(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: withOklchOpacity("--muted"),
-          foreground: withOklchOpacity("--muted-foreground"),
+          DEFAULT: "oklch(var(--muted))",
+          foreground: "oklch(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: withOklchOpacity("--accent"),
-          foreground: withOklchOpacity("--accent-foreground"),
+          DEFAULT: "oklch(var(--accent))",
+          foreground: "oklch(var(--accent-foreground))",
         },
         popover: {
-          DEFAULT: withOklchOpacity("--popover"),
-          foreground: withOklchOpacity("--popover-foreground"),
+          DEFAULT: "oklch(var(--popover))",
+          foreground: "oklch(var(--popover-foreground))",
         },
         card: {
-          DEFAULT: withOklchOpacity("--card"),
-          foreground: withOklchOpacity("--card-foreground"),
+          DEFAULT: "oklch(var(--card))",
+          foreground: "oklch(var(--card-foreground))",
         },
         sidebar: {
-          DEFAULT: withOklchOpacity("--sidebar-background"),
-          foreground: withOklchOpacity("--sidebar-foreground"),
-          primary: withOklchOpacity("--sidebar-primary"),
-          "primary-foreground": withOklchOpacity("--sidebar-primary-foreground"),
-          accent: withOklchOpacity("--sidebar-accent"),
-          "accent-foreground": withOklchOpacity("--sidebar-accent-foreground"),
-          border: withOklchOpacity("--sidebar-border"),
-          ring: withOklchOpacity("--sidebar-ring"),
+          DEFAULT: "oklch(var(--sidebar-background))",
+          foreground: "oklch(var(--sidebar-foreground))",
+          primary: "oklch(var(--sidebar-primary))",
+          "primary-foreground": "oklch(var(--sidebar-primary-foreground))",
+          accent: "oklch(var(--sidebar-accent))",
+          "accent-foreground": "oklch(var(--sidebar-accent-foreground))",
+          border: "oklch(var(--sidebar-border))",
+          ring: "oklch(var(--sidebar-ring))",
         },
       },
       borderRadius: {

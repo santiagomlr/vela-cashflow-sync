@@ -550,7 +550,7 @@ export default function CashFlow() {
                   config={{
                     income: { label: "Ingresos", color: "hsl(142, 72%, 45%)" },
                     expense: { label: "Egresos", color: "hsl(0, 84%, 60%)" },
-                    net: { label: "Flujo neto", color: "var(--primary)" },
+                    net: { label: "Flujo neto", color: "hsl(var(--primary))" },
                   }}
                 >
                   <LineChart data={cashflowSeries}>
