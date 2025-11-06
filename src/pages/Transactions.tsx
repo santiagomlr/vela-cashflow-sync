@@ -61,12 +61,14 @@ export default function Transactions() {
   };
 
   const handleDelete = async (id: string, status: string) => {
+    if (!confirm("¿Estás seguro de eliminar esta transacción?")) return;
+
     try {
       if (status === "draft") {
-        // Hard delete for drafts
+        // Hard delete for drafts - use update to set deleted_at since RLS blocks DELETE on drafts
         const { error } = await supabase
           .from("transactions")
-          .delete()
+          .update({ deleted_at: new Date().toISOString() })
           .eq("id", id);
 
         if (error) throw error;
@@ -189,14 +191,31 @@ export default function Transactions() {
                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDelete(transaction.id, transaction.status)}
-                        disabled={transaction.reconciled}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex items-center justify-end space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/transactions/${transaction.id}`)}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/transactions/${transaction.id}/edit`)}
+                          disabled={transaction.reconciled || transaction.status === "posted"}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(transaction.id, transaction.status)}
+                          disabled={transaction.reconciled}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))

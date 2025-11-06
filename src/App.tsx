@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import Transactions from "./pages/Transactions";
 import NewTransaction from "./pages/NewTransaction";
+import TransactionDetail from "./pages/TransactionDetail";
+import TransactionEdit from "./pages/TransactionEdit";
 import CashFlow from "./pages/CashFlow";
 import Export from "./pages/Export";
 import NotFound from "./pages/NotFound";
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/transactions/new" element={<NewTransaction />} />
+          <Route path="/transactions/:id" element={<TransactionDetail />} />
+          <Route path="/transactions/:id/edit" element={<TransactionEdit />} />
           <Route path="/cashflow" element={<CashFlow />} />
           <Route path="/export" element={<Export />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
