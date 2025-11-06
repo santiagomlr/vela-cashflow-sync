@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import {
   format,
@@ -19,7 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Download } from "lucide-react";
 
 import Layout from "@/components/Layout";
 import { useRequireAuth } from "@/hooks/useAuth";
@@ -391,6 +391,61 @@ export default function CashFlow() {
   const ebitda = totalIncome - (totalExpense - depreciation);
   const ebit = ebitda - depreciation;
 
+  const handleDownloadExcel = useCallback(() => {
+    if (!tableRows.length) {
+      return;
+    }
+
+    const escapeXml = (value: string) =>
+      value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
+
+    const headerRow = ["Rubro", "Conceptos", "Monto (MXN)"];
+    const dataRows = tableRows
+      .map((row) => {
+        const cells = [
+          `<Cell><Data ss:Type="String">${escapeXml(row.rubric)}</Data></Cell>`,
+          `<Cell><Data ss:Type="String">${escapeXml(row.items)}</Data></Cell>`,
+          `<Cell ss:StyleID="sCurrency"><Data ss:Type="Number">${row.amount.toFixed(2)}</Data></Cell>`,
+        ];
+        return `<Row>${cells.join("")}</Row>`;
+      })
+      .join("");
+
+    const headerXml = `<Row>${headerRow
+      .map(
+        (cell) =>
+          `<Cell ss:StyleID="sHeader"><Data ss:Type="String">${escapeXml(cell)}</Data></Cell>`
+      )
+      .join("")}</Row>`;
+
+    const worksheet = `<?xml version="1.0"?>\n<?mso-application progid="Excel.Sheet"?>\n<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">\n  <Styles>\n    <Style ss:ID="Default" ss:Name="Normal">\n      <Alignment ss:Vertical="Bottom"/>\n      <Borders/>\n      <Font ss:FontName="Inter" ss:Size="11"/>\n      <Interior/>\n      <NumberFormat/>\n      <Protection/>\n    </Style>\n    <Style ss:ID="sHeader">\n      <Font ss:Bold="1"/>\n      <Interior ss:Color="#F3F4F6" ss:Pattern="Solid"/>\n    </Style>\n    <Style ss:ID="sCurrency">\n      <NumberFormat ss:Format="&quot;$&quot;#,##0.00"/>\n    </Style>\n  </Styles>\n  <Worksheet ss:Name="Flujo por rubros">\n    <Table>\n      ${headerXml}\n      ${dataRows}\n    </Table>\n  </Worksheet>\n</Workbook>`;
+
+    const fromLabel = dateRange?.from
+      ? format(dateRange.from, "yyyyMMdd")
+      : format(new Date(), "yyyyMMdd");
+    const toLabel = dateRange?.to
+      ? format(dateRange.to, "yyyyMMdd")
+      : fromLabel;
+    const fileName = `flujo_por_rubros_${fromLabel}${
+      dateRange?.to ? `_a_${toLabel}` : ""
+    }.xls`;
+
+    const blob = new Blob([worksheet], { type: "application/vnd.ms-excel" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [dateRange, tableRows]);
+
   if (authLoading) {
     return (
       <Layout>
@@ -555,8 +610,20 @@ export default function CashFlow() {
         </Card>
 
         <Card className="shadow-elegant">
-          <CardHeader>
+          <CardHeader className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <CardTitle>Tabla de presentación — Flujo por rubros</CardTitle>
+            {!loadingData && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                onClick={handleDownloadExcel}
+              >
+                <Download className="h-4 w-4" />
+                Descargar Excel
+              </Button>
+            )}
           </CardHeader>
           <CardContent>
             {loadingData ? (
