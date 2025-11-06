@@ -125,7 +125,6 @@ export default function Transactions() {
             <TabsTrigger value="all">Todos</TabsTrigger>
             <TabsTrigger value="income">Ingresos</TabsTrigger>
             <TabsTrigger value="expense">Gastos</TabsTrigger>
-            <TabsTrigger value="transfer">Transferencias</TabsTrigger>
           </TabsList>
         </Tabs>
 
