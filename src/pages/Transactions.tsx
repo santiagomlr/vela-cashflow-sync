@@ -61,16 +61,7 @@ export default function Transactions() {
   };
 
   const handleDelete = async (id: string, status: string) => {
-    if (status !== "draft") {
-      toast({
-        variant: "destructive",
-        title: "No permitido",
-        description: "Solo los borradores pueden ser eliminados.",
-      });
-      return;
-    }
-
-    if (!confirm("¿Estás seguro de eliminar este borrador?")) return;
+    if (!confirm("¿Estás seguro de eliminar esta transacción?")) return;
 
     try {
       // Hard delete for drafts
@@ -83,7 +74,7 @@ export default function Transactions() {
 
       toast({
         title: "Eliminado",
-        description: "El borrador ha sido eliminado.",
+        description: "La transacción ha sido eliminada.",
       });
       loadTransactions();
     } catch (error: any) {
@@ -202,7 +193,7 @@ export default function Transactions() {
                           variant="ghost"
                           size="sm"
                           onClick={() => navigate(`/transactions/${transaction.id}/edit`)}
-                          disabled={transaction.reconciled || transaction.status === "posted"}
+                          disabled={transaction.reconciled}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -210,7 +201,7 @@ export default function Transactions() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handleDelete(transaction.id, transaction.status)}
-                          disabled={transaction.reconciled || transaction.status !== "draft"}
+                          disabled={transaction.reconciled}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
