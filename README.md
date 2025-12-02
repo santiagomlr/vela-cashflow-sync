@@ -71,3 +71,20 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## Supabase troubleshooting
+
+If you see an error like `Could not find the table 'public.recurring_clients' in the schema cache` while using the app, refresh the Supabase schema cache by applying the migrations to your linked project:
+
+```sh
+# Requires the Supabase CLI and a linked project (see supabase/config.toml)
+npm run supabase:push
+```
+
+If you need to fully rebuild the local database (this also clears the schema cache), you can reset it and re-apply migrations:
+
+```sh
+npm run supabase:reset
+```
+
+After running either command, restart the app and retry the operation.
