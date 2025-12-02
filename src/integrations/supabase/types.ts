@@ -91,6 +91,7 @@ export type Database = {
       recurring_clients: {
         Row: {
           amount: number
+          billing_day: number
           created_at: string | null
           due_date: string
           id: string
@@ -100,6 +101,7 @@ export type Database = {
         }
         Insert: {
           amount?: number
+          billing_day?: number
           created_at?: string | null
           due_date: string
           id?: string
@@ -109,6 +111,7 @@ export type Database = {
         }
         Update: {
           amount?: number
+          billing_day?: number
           created_at?: string | null
           due_date?: string
           id?: string
@@ -156,6 +159,7 @@ export type Database = {
           receipt_type: string | null
           receipt_url: string | null
           reconciled: boolean | null
+          recurring_client_id: string | null
           signature_url: string | null
           status: string | null
           subtotal: number | null
@@ -184,6 +188,7 @@ export type Database = {
           receipt_type?: string | null
           receipt_url?: string | null
           reconciled?: boolean | null
+          recurring_client_id?: string | null
           signature_url?: string | null
           status?: string | null
           subtotal?: number | null
@@ -212,6 +217,7 @@ export type Database = {
           receipt_type?: string | null
           receipt_url?: string | null
           reconciled?: boolean | null
+          recurring_client_id?: string | null
           signature_url?: string | null
           status?: string | null
           subtotal?: number | null
