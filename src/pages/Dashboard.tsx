@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Receipt, TrendingUp, DollarSign, Plus, FileSpreadsheet, BarChart3 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { useRequireAuth } from "@/hooks/useAuth";
+import RecurringClientsSection from "@/components/RecurringClientsSection";
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useRequireAuth();
@@ -188,6 +189,8 @@ export default function Dashboard() {
             </Card>
           </div>
         </div>
+
+        <RecurringClientsSection userId={user?.id ?? ""} />
       </div>
     </Layout>
   );
