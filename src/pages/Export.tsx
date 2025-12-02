@@ -77,6 +77,42 @@ const getBankAccountLabel = (transaction: TransactionRow) => {
   return parts.join(" - ");
 };
 
+const getStoragePath = (url: string | null) => {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+    const match = parsed.pathname.match(/\/storage\/v1\/object\/(public|sign)\/([^/]+)\/(.+)/);
+
+    if (!match) return null;
+
+    return {
+      bucket: match[2],
+      path: decodeURIComponent(match[3]),
+    };
+  } catch (error) {
+    console.error("Error parsing storage URL", error);
+    return null;
+  }
+};
+
+const createSignedUrl = async (url: string | null) => {
+  const storagePath = getStoragePath(url);
+
+  if (!storagePath) return url;
+
+  const { data, error } = await supabase.storage
+    .from(storagePath.bucket)
+    .createSignedUrl(storagePath.path, 60 * 60 * 24 * 30);
+
+  if (error || !data?.signedUrl) {
+    console.warn("No se pudo crear un enlace firmado para", url, error);
+    return url;
+  }
+
+  return data.signedUrl;
+};
+
 const roundCurrency = (value: number) => Math.round((value + Number.EPSILON) * 100) / 100;
 
 const getVatBreakdown = (transaction: TransactionRow) => {
@@ -258,9 +294,15 @@ export default function Export() {
 
       if (error) throw error;
 
-      const transactions = (data as TransactionRow[]) ?? [];
+      const transactionsWithSignedUrls = await Promise.all(
+        ((data as TransactionRow[]) ?? []).map(async (transaction) => ({
+          ...transaction,
+          receipt_url: await createSignedUrl(transaction.receipt_url),
+          signature_url: await createSignedUrl(transaction.signature_url),
+        }))
+      );
 
-      if (transactions.length === 0) {
+      if (transactionsWithSignedUrls.length === 0) {
         toast({
           title: "Sin datos",
           description: "No hay transacciones disponibles para exportar.",
@@ -268,8 +310,8 @@ export default function Export() {
         return;
       }
 
-      const banregioSheet = prepareBanregioSheet(transactions);
-      const velaSheet = prepareVelaSheet(transactions);
+      const banregioSheet = prepareBanregioSheet(transactionsWithSignedUrls);
+      const velaSheet = prepareVelaSheet(transactionsWithSignedUrls);
 
       const workbook = XLSX.utils.book_new();
 

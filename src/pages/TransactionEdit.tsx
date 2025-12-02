@@ -149,11 +149,16 @@ export default function TransactionEdit() {
 
     if (uploadError) throw uploadError;
 
-    const {
-      data: { publicUrl },
-    } = supabase.storage.from(bucket).getPublicUrl(filePath);
+    const { data: signedData, error: signedError } =
+      await supabase.storage
+        .from(bucket)
+        .createSignedUrl(filePath, 60 * 60 * 24 * 30);
 
-    return publicUrl;
+    if (signedError || !signedData?.signedUrl) {
+      throw signedError || new Error("No se pudo generar el enlace firmado");
+    }
+
+    return signedData.signedUrl;
   };
 
   const handleSubmit = async (status: "draft" | "posted") => {

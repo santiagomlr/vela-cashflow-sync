@@ -110,8 +110,16 @@ export default function NewTransaction() {
 
     if (uploadError) throw uploadError;
 
-    const { data } = supabase.storage.from("receipts").getPublicUrl(filePath);
-    return data.publicUrl;
+    const { data: signedData, error: signedError } =
+      await supabase.storage
+        .from("receipts")
+        .createSignedUrl(filePath, 60 * 60 * 24 * 30);
+
+    if (signedError || !signedData?.signedUrl) {
+      throw signedError || new Error("No se pudo generar el enlace firmado");
+    }
+
+    return signedData.signedUrl;
   };
 
   const handleSubmit = async (status: "draft" | "posted") => {
